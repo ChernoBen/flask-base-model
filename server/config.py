@@ -11,7 +11,7 @@ class Config(object):
     TEMPLATE_FOLDER = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'templates')
     ROOT_DIR = os.path.dirname(os.path.abspath(__file__))
     APP = None
-    SQLALCHEMY_DATABASE_URI = 'mysql+mysqldb://root:123@localhost:3306/flask'
+    SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://root:Sapiencia123@localhost:3306/flask'
     SENDGRID_API_KEY = 'API_KEY'
 
 class DevelopmentConfig(Config):
