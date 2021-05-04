@@ -1,6 +1,8 @@
 FROM ubuntu:20.04
 
-RUN apt-get update -y && \ apt-get install -y python-pip python-dev
+RUN apt-get update
+
+RUN apt-get -y install python3.8
 
 COPY ./requirements.txt /app/requirements.txt
 
@@ -12,4 +14,4 @@ COPY . /app
 
 ENTRYPOINT ["python"]
 
-CMD["run.py"]
+CMD ["run.py"]
