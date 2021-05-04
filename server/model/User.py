@@ -28,7 +28,7 @@ class User(db.Model):
 
     def hash_password(self,password):
         try:
-            return pbkdf2_sha256.hash(passwords)
+            return pbkdf2_sha256.hash(password)
         except Exception as e:
             print(f'Fail to encrypt password {e}')
 
