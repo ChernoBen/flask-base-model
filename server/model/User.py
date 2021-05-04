@@ -17,6 +17,9 @@ class User(db.Model):
     active = db.Column(db.Boolean(),default=1,nullable=True)
     role = db.Column(db.Integer,db.ForeignKey(Role.id),nullable=False)
 
+    def __repr__(self):
+        return '%s - %s' % (self.id,self.username)
+
     def get_user_by_email(self):
         return " "
 

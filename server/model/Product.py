@@ -3,6 +3,7 @@ from flask_sqlalchemy import SQLAlchemy
 from config import app_active,app_config
 from model.User import User
 from model.Category import Category
+from sqlalchemy.orm import relationship
 
 config = app_config[app_active]
 db = SQLAlchemy(config.APP)
@@ -17,3 +18,5 @@ class Product(db.Model):
     data_created = db.Column(db.DateTime(6),default=db.func.current_timestamp(),nullable=False)
     last_update = db.Column(db.DateTime(6),onupdate=db.func.current_timestamp(),nullable=False)
     category = db.Column(db.Integer,db.ForeignKey(Category.id),nullable=False)
+    usuario = relationship(User)
+    category = relationship(Category)
