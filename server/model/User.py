@@ -28,8 +28,26 @@ class User(db.Model):
     def get_user_by_email(self):
         return " "
 
-    def get_user_by_id(self):
-        return ""
+    def get_user_by_id(self,user_id):
+        result = {}
+        try:
+            self.user_model.id = user_id
+            res = self.user_model.get_user_by_id()
+            result = {
+                'id':res.id,
+                'name':res.email,
+                'date_created':res.date_created
+            }
+            status = 200
+        except Exception as e:
+            print(e)
+            result = []
+            status = 400
+        finally:
+            return{
+                'result':result,
+                'status':status
+            }
 
     def update(self,obj):
         return " "
@@ -54,6 +72,16 @@ class User(db.Model):
             res = db.session.query(func.count(User.id)).first()
         except Exception as e:
             res = []
+            print(e)
+        finally:
+            db.session.close()
+            return res
+
+    def get_users_by_id(self):
+        try:
+            res = db.session.query(User).filter(User.id == self.id).first()
+        except Exception as e:
+            res = None
             print(e)
         finally:
             db.session.close()

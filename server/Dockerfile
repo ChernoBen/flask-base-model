@@ -1,18 +1,18 @@
-FROM ubuntu:20.04
+FROM python:alpine3.9
 
-RUN apt-get update
+WORKDIR /app
 
-RUN apt-get -y install python3.8
+RUN pip install --upgrade pip
 
 COPY ./requirements.txt /app/requirements.txt
 
-WORKDIR /app
+RUN apk add build-base
 
 RUN pip install -r requirements.txt
 
 COPY . /app
 
-RUN export FLASK_ENV=development
+ENV FLASK_ENV=development
 
 ENTRYPOINT ["python"]
 

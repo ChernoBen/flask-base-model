@@ -23,9 +23,12 @@ class Product(db.Model):
     #user = relationship(User)
     type = relationship(Category)
 
-    def get_all(self):
+    def get_all(self,limit):
         try:
-            res = db.session.query(Product).all()
+            if limit is None:
+                res = db.session.query(Product).all()
+            else:
+                res = db.session.query(Product).order_by(Product.data_created).limit(limit).all()
         except Exception as e:
             res = []
             print(e)
@@ -68,6 +71,26 @@ class Product(db.Model):
             res = db.session.query(func.count(Product.id)).first()
         except Exception as e:
             res = []
+            print(e)
+        finally:
+            db.session.close()
+            return res
+
+    def get_last_products(self):
+        try:
+            res = db.session.query(Product).order_by(Product.date_created).limit(5).all()
+        except Exception as e:
+            res = []
+            print(e)
+        finally:
+            db.session.close()
+            return res
+
+    def get_product_by_id(self):
+        try:
+            res = db.session(Product).filter(Product.id == self.id).first()
+        except Exception as e:
+            res = None
             print(e)
         finally:
             db.session.close()

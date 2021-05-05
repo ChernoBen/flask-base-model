@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from flask import Flask,request,redirect,render_template
+from flask import Flask,request,redirect,render_template,Response,json
 from flask_sqlalchemy import SQLAlchemy
 from controller.User import UserController
 from admin.Admin import start_views
@@ -94,5 +94,21 @@ def create_app(config_name):
         else:
             message = "Fail"
         return message
+
+    #API endpoints :
+    @app.route('/products/',methods=['GET'])
+    @app.route('/products/<limit>',methods=['GET'])
+    def get_products(limit=None):
+        header = {}
+        product = ProductController()
+        response = product.get_products(limit=limit)
+        return Response(json.dumps(response,ensure_ascii=False),mimetype='application/json'),response['status'],header
+
+    @app.route('/product/<product_id>',methods=['GET'])
+    def get_product(product_id):
+        header = {}
+        product = ProductController()
+        response = product.get_product_by_id(product_id = product_id)
+        return Response(json.dumps(response,ensure_accii=False),mimetype='application/json'),response['status'],header
 
     return app
