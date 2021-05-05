@@ -9,6 +9,7 @@ config = app_config[app_active]
 db = SQLAlchemy(config.APP)
 
 class Product(db.Model):
+    __tablename__ = 'product'
     id = db.Column(db.Integer,primary_key=True)
     name = db.Column(db.String(20),unique=True,nullable=False)
     description = db.Column(db.Text(),nullable=False)
@@ -18,5 +19,6 @@ class Product(db.Model):
     data_created = db.Column(db.DateTime(6),default=db.func.current_timestamp(),nullable=False)
     last_update = db.Column(db.DateTime(6),onupdate=db.func.current_timestamp(),nullable=False)
     category = db.Column(db.Integer,db.ForeignKey(Category.id),nullable=False)
-    usuario = relationship(User)
-    category = relationship(Category)
+    #user = relationship(User)
+    type = relationship(Category)
+

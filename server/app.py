@@ -15,6 +15,7 @@ def create_app(config_name):
     app.config.from_object(app_config[config_name])
     app.config.from_pyfile('config.py')
     app.config['SQLALCHEMY_DATABASE_URI'] = False
+    app.config['FLASK_ADMIN_SWATCH'] = 'paper'
     db = SQLAlchemy(config.APP)
     db.init_app(app)
     start_views(app,db)

@@ -3,19 +3,23 @@ from flask_sqlalchemy import SQLAlchemy
 from config import app_config, app_active
 from model.Role import Role
 from passlib.hash import pbkdf2_sha256
+from sqlalchemy.orm import relationship
+
 
 config = app_config[app_active]
 
 db = SQLAlchemy(config.APP)
 
 class User(db.Model):
+    __tablename__ = 'user'
     id = db.Column(db.Integer,primary_key=True)
     username = db.Column(db.String(40),unique=True,nullable=True)
     email = db.Column(db.String(120),nullable=False)
     password = db.Column(db.DateTime(6),default=db.func.current_timestrap(),nullable=True)
     recovery_code = db.Column(db.String(200),nullable=True)
-    active = db.Column(db.Boolean(),default=1,nullable=True)
+    active = db.Column(db.Integer(),default=1,nullable=True)
     role = db.Column(db.Integer,db.ForeignKey(Role.id),nullable=False)
+    badge = relationship(Role)
 
     def __repr__(self):
         return '%s - %s' % (self.id,self.username)
