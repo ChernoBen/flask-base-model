@@ -4,6 +4,7 @@ from flask_sqlalchemy import SQLAlchemy
 from controller.User import UserController
 from admin.Admin import start_views
 from controller.Product import ProductController
+from flask_bootstrap import Bootstrap
 
 
 #codging import
@@ -19,13 +20,13 @@ def create_app(config_name):
     app.config['SQLALCHEMY_DATABASE_URI'] = False
     app.config['FLASK_ADMIN_SWATCH'] = 'paper'
     db = SQLAlchemy(config.APP)
-    db.init_app(app)
+    Bootstrap(app)
     start_views(app,db)
     db.init_app(app)
 
     @app.route('/')
     def index():
-        return 'Hello World!'
+        return render_template('login.html')
 
     @app.route('/login/',methods=['POST'])
     def login():
@@ -37,7 +38,7 @@ def create_app(config_name):
         if result:
             return redirect('/admin')
         else:
-            return render_template('login.html',data={"status":401,"message":"Invalid user data",type:None})
+            return render_template('login.html',message="This message came from route")
 
 
     @app.route('/recovery-password')
@@ -84,7 +85,7 @@ def create_app(config_name):
             message = "Fail"
         return message
 
-    @app.route('/product',mehtods=['PUT'])
+    @app.route('/product',methods=['PUT'])
     def update_products():
         product = ProductController()
         result = product.update_product(request.form)

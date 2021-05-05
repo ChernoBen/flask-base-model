@@ -4,6 +4,7 @@ from config import app_active,app_config
 from model.User import User
 from model.Category import Category
 from sqlalchemy.orm import relationship
+from sqlalchemy import func,distinct
 
 config = app_config[app_active]
 db = SQLAlchemy(config.APP)
@@ -50,4 +51,14 @@ class Product(db.Model):
         except Exception as e:
             print(e)
             db.session.rollback()
+            return False
+
+    def delete(self,obj):
+        try:
+            db.session.query(Product).filter(Product.id == self.id).delete()
+            db.session.commit()
+            return True
+        except Exception as e:
+            db.session.rollback()
+            print(e)
             return False
