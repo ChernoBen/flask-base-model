@@ -2,11 +2,11 @@ FROM python:alpine3.9
 
 WORKDIR /app
 
+RUN apk add --update gcc
+
 RUN pip install --upgrade pip
 
 COPY ./requirements.txt /app/requirements.txt
-
-RUN apk add build-base
 
 RUN pip install -r requirements.txt
 
