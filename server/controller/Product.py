@@ -52,7 +52,7 @@ class ProductController():
                 'id':res.id,
                 'name':res.name,
                 'description':res.description,
-                'qtd':res.qtd,
+                'qtd':str(res.qtd),
                 'price':str(res.price),
                 'image':res.image,
                 'date_created':res.date_created

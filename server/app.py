@@ -23,6 +23,12 @@ def create_app(config_name):
     Bootstrap(app)
     start_views(app,db)
     db.init_app(app)
+    @app.after_request
+    def after_request(response):
+        response.headers.add('Access-Control-Allow-Origin','*')
+        response.headers.add('Access-Control-Allow-Headers','Content-Type')
+        response.headers.add('Access-Control-Allow-Methods','GET,PUT,POST,DELETE,OPTIONS')
+        return response
 
     @app.route('/')
     def index():
@@ -96,6 +102,7 @@ def create_app(config_name):
         return message
 
     #API endpoints :
+
     @app.route('/products/',methods=['GET'])
     @app.route('/products/<limit>',methods=['GET'])
     def get_products(limit=None):
@@ -109,6 +116,14 @@ def create_app(config_name):
         header = {}
         product = ProductController()
         response = product.get_product_by_id(product_id = product_id)
-        return Response(json.dumps(response,ensure_accii=False),mimetype='application/json'),response['status'],header
+        return Response(json.dumps(response,ensure_ascii=False),mimetype='application/json'),response['status'],header
+
+    @app.route('/user/<user_id>',methods=['GET'])
+    def get_user_profile(user_id):
+        header={}
+        user = UserController()
+        response = user.get_user_by_id(user_id=user_id)
+        return Response(json.dumps(response,ensure_ascii=False),mimetype='application/json'),response['status'],header
+
 
     return app
