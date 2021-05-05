@@ -4,6 +4,7 @@ from config import app_config, app_active
 from model.Role import Role
 from passlib.hash import pbkdf2_sha256
 from sqlalchemy.orm import relationship
+from sqlalchemy import func
 
 
 config = app_config[app_active]
@@ -47,3 +48,13 @@ class User(db.Model):
             return pbkdf2_sha256.verify(password_no_hash,password_database)
         except ValueError:
             return False
+
+    def get_total_users(self):
+        try:
+            res = db.session.query(func.count(User.id)).first()
+        except Exception as e:
+            res = []
+            print(e)
+        finally:
+            db.session.close()
+            return res
