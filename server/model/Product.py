@@ -62,3 +62,13 @@ class Product(db.Model):
             db.session.rollback()
             print(e)
             return False
+
+    def get_total_products(self):
+        try:
+            res = db.session.query(func.count(Product.id)).first()
+        except Exception as e:
+            res = []
+            print(e)
+        finally:
+            db.session.close()
+            return res
