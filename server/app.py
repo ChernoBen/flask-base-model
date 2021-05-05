@@ -3,6 +3,7 @@ from flask import Flask,request,redirect,render_template
 from flask_sqlalchemy import SQLAlchemy
 from controller.User import UserController
 from admin.Admin import start_views
+from controller.Product import ProductController
 
 #codging import
 from config import app_config, app_active
@@ -71,6 +72,16 @@ def create_app(config_name):
         username = request.form['username']
         password = request.form['password']
         return f'This route has a put method and will edit the user name to {username} and pass to {password}'
+
+    @app.route('/product',methods=['POST'])
+    def save_products():
+        product = ProductController()
+        result = product.save_product(request.form)
+        if result:
+            message = "Insert"
+        else:
+            message = "Fail"
+        return message
 
 
     return app
