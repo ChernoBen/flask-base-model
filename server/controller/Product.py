@@ -13,3 +13,7 @@ class ProductController():
         self.product_model.date_created = datetime.now()
         self.product_model.category = obj['category']
         return self.product_model.save()
+
+    def update_product(self,obj):
+        self.product_model.id = obj['id']
+        return self.product_model.update(obj)

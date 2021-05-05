@@ -5,6 +5,7 @@ from controller.User import UserController
 from admin.Admin import start_views
 from controller.Product import ProductController
 
+
 #codging import
 from config import app_config, app_active
 config = app_config[app_active]
@@ -83,5 +84,14 @@ def create_app(config_name):
             message = "Fail"
         return message
 
+    @app.route('/product',mehtods=['PUT'])
+    def update_products():
+        product = ProductController()
+        result = product.update_product(request.form)
+        if result:
+            message = "Updated"
+        else:
+            message = "Fail"
+        return message
 
     return app
